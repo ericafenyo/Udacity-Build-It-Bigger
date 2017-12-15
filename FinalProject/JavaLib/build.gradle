@@ -1,0 +1,17 @@
+apply plugin: 'java-library'
+apply plugin: 'application'
+apply plugin: 'java'
+
+mainClassName = 'com.example.javalib'
+
+task runProvider(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.example.javalib'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

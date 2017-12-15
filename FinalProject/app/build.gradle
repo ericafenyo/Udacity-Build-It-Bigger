@@ -1,0 +1,71 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        applicationId "com.udacity.gradle.builditbigger"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        flavorDimensions "default"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        free {
+            applicationId "com.udacity.gradle.builditbigger.free"
+        }
+        paid {
+            applicationId "com.udacity.gradle.builditbigger.paid"
+        }
+    }
+}
+
+ext {
+    supportLibVersion = '27.0.2'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation "com.android.support:appcompat-v7:${supportLibVersion}"
+    implementation "com.android.support:support-v4:${supportLibVersion}"
+    freeImplementation 'com.google.android.gms:play-services-ads:11.6.2'
+    implementation project(path: ':backend', configuration: 'android-endpoints')
+    implementation project(':AndroidLib')
+    implementation project(':Javalib')
+}
+
+//got ideas from an article
+//source: http://gregloesch.com/dev/2016/06/11/Android-Gradle-Learnings-Update.html
+
+task stopEngine(dependsOn: ':backend:appengineStop') {
+    description "Shuts the GCE local development server down"
+    doLast {
+        println " Finished executing testTask"
+    }
+}
+
+//run this test to launch the GCE local development server,runs all tests and shuts the server down
+task testTask(dependsOn: [
+        ":backend:appengineRun",
+        ":app:connectedAndroidTest"
+]) {
+    description "Launches the GCE local development server,runs all tests and shuts the server down"
+    doLast {
+        println " Finished executing testTask"
+    }
+
+    testTask.finalizedBy(stopEngine)
+
+}
