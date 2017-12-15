@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.util.Pair;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -17,6 +18,7 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.udacity.gradle.builditbigger.backend.jokerApi.model.JokerBean;
 import com.udacity.gradle.builditbigger.backend.jokerApi.JokerApi;
 
 import java.io.IOException;
@@ -71,7 +73,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
         }
 
         try {
-            return mJokerApi.getJokes(new JokesProvider().provide()).execute().getData();
+            return mJokerApi.getJokes().execute().getData();
         } catch (IOException e) {
             return e.getMessage();
         }
