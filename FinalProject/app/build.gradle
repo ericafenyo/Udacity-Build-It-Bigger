@@ -43,7 +43,7 @@ dependencies {
     freeImplementation 'com.google.android.gms:play-services-ads:11.6.2'
     implementation project(path: ':backend', configuration: 'android-endpoints')
     implementation project(':AndroidLib')
-    implementation project(':Javalib')
+    implementation project(':JavaLib')
 }
 
 //got ideas from an article
